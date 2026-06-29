@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CryptoID | Platform crypto untuk Indonesia</title>
+  <meta name="description" content="Beli dan jual Bitcoin, Ethereum, USDT, dan aset crypto lain dengan harga IDR, deposit QRIS atau transfer bank, dan benefit untuk pengguna baru Indonesia.">
+  <style>
+    :root {
+      --ink: #101318;
+      --panel: #161b24;
+      --panel-2: #202737;
+      --paper: #f7f9fc;
+      --muted: #667085;
+      --line: rgba(16, 19, 24, .12);
+      --primary: #00a36c;
+      --primary-dark: #08734f;
+      --gold: #f2a900;
+      --blue: #1d6fd1;
+      --red: #d94343;
+      --white: #ffffff;
+      --shadow: 0 22px 60px rgba(16, 19, 24, .22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      color: var(--ink);
+      background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--gold), var(--blue));
+      z-index: 1000;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: fixed;
+      top: 4px;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      color: var(--white);
+      background: rgba(16, 19, 24, .86);
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      width: min(1180px, calc(100% - 32px));
+      height: 70px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: var(--ink);
+      background: var(--gold);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: rgba(255, 255, 255, .76);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      min-height: 44px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border .22s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(16, 19, 24, .2);
+    }
+
+    .btn-primary {
+      color: var(--white);
+      background: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-gold {
+      color: var(--ink);
+      background: var(--gold);
+    }
+
+    .btn-outline {
+      color: var(--white);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, .26);
+    }
+
+    .btn-light {
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--line);
+    }
+
+    .hero {
+      min-height: 94vh;
+      padding: 130px 0 76px;
+      display: grid;
+      align-items: center;
+      color: var(--white);
+      background:
+        linear-gradient(90deg, rgba(16, 19, 24, .94) 0%, rgba(16, 19, 24, .82) 48%, rgba(16, 19, 24, .28) 100%),
+        url("https://images.unsplash.com/photo-1640340434855-6084b1f4901c?auto=format&fit=crop&w=1800&q=85") center/cover no-repeat;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 680px) minmax(320px, 430px);
+      gap: 46px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .2);
+      background: rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .86);
+      font-size: 13px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      box-shadow: 0 0 0 8px rgba(0, 163, 108, .18);
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.05;
+      letter-spacing: 0;
+      margin-bottom: 20px;
+    }
+
+    .hero-copy {
+      max-width: 640px;
+      color: rgba(255, 255, 255, .82);
+      font-size: 19px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions,
+    .trust-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .trust-strip {
+      margin-top: 34px;
+      color: rgba(255, 255, 255, .78);
+    }
+
+    .trust-item {
+      min-width: 145px;
+      padding-left: 14px;
+      border-left: 2px solid rgba(255, 255, 255, .22);
+    }
+
+    .trust-item strong {
+      display: block;
+      color: var(--white);
+      font-size: 22px;
+      line-height: 1.18;
+    }
+
+    .market-card {
+      background: rgba(255, 255, 255, .95);
+      color: var(--ink);
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .market-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .market-head small {
+      color: var(--muted);
+    }
+
+    .coin-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .coin {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+    }
+
+    .coin small {
+      color: var(--muted);
+    }
+
+    .up {
+      color: var(--primary);
+    }
+
+    .down {
+      color: var(--red);
+    }
+
+    .mini-chart {
+      height: 136px;
+      margin-top: 14px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section.dark {
+      color: var(--white);
+      background: var(--ink);
+    }
+
+    .section.soft {
+      background: #edf2f7;
+    }
+
+    .section-title {
+      max-width: 790px;
+      margin-bottom: 34px;
+    }
+
+    .section-title.center {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .section-title h2 {
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.14;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .dark .section-title p {
+      color: rgba(255, 255, 255, .68);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 100%;
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      transition: transform .22s ease, box-shadow .22s ease, border .22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 163, 108, .35);
+      box-shadow: 0 18px 44px rgba(16, 19, 24, .12);
+    }
+
+    .dark .card {
+      color: var(--white);
+      background: var(--panel);
+      border-color: rgba(255, 255, 255, .1);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      color: var(--ink);
+      background: var(--gold);
+      font-weight: 900;
+      font-size: 20px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 9px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .dark .card p {
+      color: rgba(255, 255, 255, .68);
+    }
+
+    .table {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 14px 40px rgba(16, 19, 24, .08);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 14px;
+      color: var(--muted);
+      background: var(--white);
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .tab.active {
+      color: var(--white);
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr .8fr .8fr;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .row:last-child {
+      border-bottom: 0;
+    }
+
+    .row small {
+      color: var(--muted);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: 28px;
+      border-radius: 8px;
+      background: var(--white);
+      border: 1px solid var(--line);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      color: var(--white);
+      background: var(--primary);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .step h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: var(--muted);
+    }
+
+    .security-layout {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .security-panel {
+      padding: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--panel), var(--panel-2));
+      border: 1px solid rgba(255, 255, 255, .1);
+      box-shadow: var(--shadow);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .86);
+    }
+
+    .check::before {
+      content: "✓";
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      color: var(--ink);
+      background: var(--gold);
+      font-weight: 900;
+    }
+
+    .faq {
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-item {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px;
+      border: 0;
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 850;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 18px 18px;
+      color: var(--muted);
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .final-cta {
+      padding: 70px 0;
+      color: var(--white);
+      background:
+        linear-gradient(90deg, rgba(16, 19, 24, .94), rgba(16, 19, 24, .76)),
+        url("https://images.unsplash.com/photo-1639322537228-dc871418009f?auto=format&fit=crop&w=1600&q=85") center/cover no-repeat;
+    }
+
+    .final-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .final-box h2 {
+      max-width: 760px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.14;
+      margin-bottom: 10px;
+    }
+
+    .final-box p {
+      color: rgba(255, 255, 255, .72);
+      font-size: 17px;
+    }
+
+    .footer {
+      padding: 30px 0;
+      color: var(--muted);
+      background: var(--white);
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(16, 19, 24, .68);
+    }
+
+    .modal.show {
+      display: grid;
+    }
+
+    .modal-box {
+      width: min(520px, 100%);
+      padding: 26px;
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      animation: pop .22s ease;
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(.94);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .modal-top h3 {
+      font-size: 28px;
+      line-height: 1.15;
+    }
+
+    .modal-top p {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .close {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .bonus-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .bonus {
+      padding: 12px;
+      border: 1px solid rgba(0, 163, 108, .22);
+      border-radius: 8px;
+      background: rgba(0, 163, 108, .08);
+      font-weight: 750;
+    }
+
+    .form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .input {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0, 163, 108, .12);
+    }
+
+    .success {
+      display: none;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 8px;
+      color: var(--primary-dark);
+      background: rgba(0, 163, 108, .1);
+      border: 1px solid rgba(0, 163, 108, .25);
+    }
+
+    .sticky-cta {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      z-index: 850;
+      width: min(680px, calc(100% - 24px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(16, 19, 24, .94);
+      box-shadow: var(--shadow);
+      transform: translate(-50%, 130%);
+      transition: transform .25s ease;
+    }
+
+    .sticky-cta.show {
+      transform: translate(-50%, 0);
+    }
+
+    .sticky-cta span {
+      color: rgba(255, 255, 255, .78);
+      font-size: 14px;
+    }
+
+    .sticky-actions {
+      display: flex;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .mini-btn {
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255, 255, 255, .1);
+      cursor: pointer;
+    }
+
+    @media (max-width: 930px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .security-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3,
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .final-box {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container,
+      .nav-inner {
+        width: min(100% - 22px, 1180px);
+      }
+
+      .nav-actions .btn-outline {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .grid-3,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .sticky-cta {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#home" aria-label="Beranda CryptoID">
+        <span class="brand-mark">₿</span>
+        <span>CryptoID</span>
+      </a>
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#markets">Pasar live</a>
+        <a href="#why">Keunggulan</a>
+        <a href="#steps">Proses</a>
+        <a href="#security">Keamanan</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn-outline" data-open-modal>Masuk</button>
+        <button class="btn btn-primary" data-open-modal>Daftar dan ambil benefit</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="live-dot"></span> Gerbang crypto untuk pengguna Indonesia</div>
+          <h1>Beli Bitcoin dan aset crypto utama dengan alur yang jelas di Indonesia</h1>
+          <p class="hero-copy">Akses USDT, BTC, ETH, dan 100+ aset. Lihat harga dalam IDR, siapkan deposit lewat QRIS atau transfer bank, dan dapatkan dukungan Bahasa Indonesia saat daftar.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-open-modal>Mulai sekarang</button>
+            <a class="btn btn-outline" href="#markets">Lihat pasar live</a>
+          </div>
+          <div class="trust-strip">
+            <div class="trust-item"><strong>500 mil+</strong>pengguna terdaftar</div>
+            <div class="trust-item"><strong>3 min</strong>alur beli terpandu</div>
+            <div class="trust-item"><strong>24/7</strong>dukungan Bahasa Indonesia</div>
+          </div>
+        </div>
+
+        <aside class="market-card" aria-label="Pratinjau pasar live">
+          <div class="market-head">
+            <div>
+              <b>Pasar live</b>
+              <br>
+              <small>Simulasi harga aset utama</small>
+            </div>
+            <small id="clock">Memperbarui</small>
+          </div>
+          <div class="coin-list">
+            <div class="coin">
+              <div><b>BTC / IDR</b><br><small>Bitcoin</small></div>
+              <div><b id="btcPrice">Rp 1.100.000.000</b><br><span class="up" id="btcMove">+1.24%</span></div>
+            </div>
+            <div class="coin">
+              <div><b>ETH / IDR</b><br><small>Ethereum</small></div>
+              <div><b id="ethPrice">Rp 60.000.000</b><br><span class="down" id="ethMove">-0.38%</span></div>
+            </div>
+            <div class="coin">
+              <div><b>SOL / IDR</b><br><small>Solana</small></div>
+              <div><b id="solPrice">Rp 2.500.000</b><br><span class="up" id="solMove">+2.06%</span></div>
+            </div>
+          </div>
+          <div class="mini-chart">
+            <canvas id="chart" width="520" height="170"></canvas>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="markets">
+      <div class="container">
+        <div class="section-title center">
+          <h2>Amati pasar sebelum mulai transaksi</h2>
+          <p>Lihat harga dalam IDR, perubahan harian, dan aset populer. Kamu bisa mengamati pasar dulu sebelum memutuskan membuka akun.</p>
+        </div>
+        <div class="tabs" aria-label="Kategori pasar">
+          <button class="tab active" data-market="hot">Aset populer</button>
+          <button class="tab" data-market="stable">Stablecoins</button>
+          <button class="tab" data-market="new">Aset baru</button>
+        </div>
+        <div class="table" id="marketTable"></div>
+      </div>
+    </section>
+
+    <section class="section soft" id="why">
+      <div class="container">
+        <div class="section-title center">
+          <h2>Mengapa makin banyak orang Indonesia mulai dari sini?</h2>
+          <p>Dari daftar, deposit, beli, jual, sampai tarik dana, pengalaman ini dibuat jelas: cepat, biaya transparan, aman, dan didukung Bahasa Indonesia.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">IDR</div>
+            <h3>Alur cepat</h3>
+            <p>Pendaftaran, verifikasi, dan tombol beli disusun bertahap supaya kamu tahu langkah berikutnya.</p>
+          </article>
+          <article class="card">
+            <div class="icon">Fee</div>
+            <h3>Biaya jelas</h3>
+            <p>Biaya ditampilkan sebelum transaksi. Cocok untuk mencoba nominal kecil atau memantau pasar lebih sering.</p>
+          </article>
+          <article class="card">
+            <div class="icon">Seg</div>
+            <h3>Perlindungan akun</h3>
+            <p>Verifikasi, penyimpanan dingin/panas, alert login, dan pemeriksaan penarikan membantu menjaga akun.</p>
+          </article>
+          <article class="card">
+            <div class="icon">ES</div>
+            <h3>Dukungan Bahasa Indonesia</h3>
+            <p>Bantuan 24/7 untuk daftar, deposit QRIS, beli, jual, tarik dana, dan verifikasi akun.</p>
+          </article>
+          <article class="card">
+            <div class="icon">100+</div>
+            <h3>Aset utama</h3>
+            <p>Bitcoin, Ethereum, USDT, SOL, BNB, dan aset lain tersedia dalam satu akun.</p>
+          </article>
+          <article class="card">
+            <div class="icon">Bon</div>
+            <h3>Benefit pengguna baru</h3>
+            <p>Setelah daftar, kamu bisa melihat kupon biaya, limit promo, atau akses khusus pengguna baru.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="steps">
+      <div class="container">
+        <div class="section-title center">
+          <h2>Mulai transaksi crypto pertama dalam 3 langkah</h2>
+          <p>Proses sederhana membuat pendaftaran lebih ringan dan langkah berikutnya jelas.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <h3>Buat akun</h3>
+            <p>Daftar dengan e-mail atau nomor ponsel, lalu selesaikan verifikasi dasar.</p>
+          </article>
+          <article class="step">
+            <h3>Deposit IDR</h3>
+            <p>Siapkan jalur lokal dengan KTP, QRIS, transfer bank, atau VA sesuai metode yang tersedia di Indonesia.</p>
+          </article>
+          <article class="step">
+            <h3>Beli atau jual crypto</h3>
+            <p>Pilih BTC, ETH, USDT, atau aset lain, cek nominal IDR, lalu konfirmasi transaksi.</p>
+          </article>
+        </div>
+        <div style="text-align:center; margin-top: 30px;">
+          <button class="btn btn-primary" data-open-modal>Buat akun sekarang</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="security">
+      <div class="container security-layout">
+        <div class="section-title">
+          <h2>Keamanan akun jadi prioritas</h2>
+          <p>Alurnya menggabungkan verifikasi login, pengenalan perangkat, alert aktivitas, penyimpanan dingin, dan pemeriksaan penarikan.</p>
+          <button class="btn btn-gold" data-open-modal>Ambil panduan buka akun aman</button>
+        </div>
+        <div class="security-panel">
+          <h3 style="font-size: 26px;">Checklist keamanan</h3>
+          <div class="check-list">
+            <div class="check">Verifikasi dua langkah</div>
+            <div class="check">Penyimpanan dingin dan panas</div>
+            <div class="check">Alert login tidak biasa</div>
+            <div class="check">Pemeriksaan penarikan</div>
+            <div class="check">Kontrol risiko akun</div>
+            <div class="check">Pemantauan berkelanjutan</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="faq">
+      <div class="container">
+        <div class="section-title center">
+          <h2>Pertanyaan umum</h2>
+          <p>Jawaban singkat tentang daftar, QRIS, aset, biaya, dan keamanan.</p>
+        </div>
+        <div class="faq">
+          <article class="faq-item open">
+            <button class="faq-question" type="button">Bisa dipakai pemula?<span>−</span></button>
+            <div class="faq-answer">Bisa. Alurnya dimulai dari daftar, deposit QRIS, beli, jual, tarik dana, dengan dukungan Bahasa Indonesia.</div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Berapa lama daftar akun?<span>+</span></button>
+            <div class="faq-answer">Biasanya hanya beberapa menit. Setelah verifikasi e-mail atau nomor ponsel, kamu bisa masuk ke akun.</div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Aset crypto apa saja yang tersedia?<span>+</span></button>
+            <div class="faq-answer">BTC, ETH, USDT, SOL, BNB, dan aset utama lain.</div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Apakah biayanya tinggi?<span>+</span></button>
+            <div class="faq-answer">Biaya ditampilkan dengan jelas, dan pengguna baru bisa melihat kupon biaya.</div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Bagaimana akun dilindungi?<span>+</span></button>
+            <div class="faq-answer">Ada verifikasi, alert, pemeriksaan penarikan, dan kontrol untuk mengurangi risiko operasional.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container final-box">
+        <div>
+          <h2>Daftar sekarang dan ambil benefit pengguna baru</h2>
+          <p>Setelah membuat akun, kamu bisa melihat promo, pasar live, dan akses transaksi.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-open-modal>Daftar sekarang</button>
+          <a class="btn btn-outline" href="#markets">Lihat pasar</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span>© 2026 CryptoID. All rights reserved.</span>
+      <span>Ketentuan · Privasi · Pusat bantuan · Peringatan risiko</span>
+    </div>
+  </footer>
+
+  <div class="sticky-cta" id="stickyCta">
+    <span>Benefit tersedia: kupon biaya, limit promo, dan panduan buka akun.</span>
+    <div class="sticky-actions">
+      <button class="mini-btn" data-open-modal>Ambil</button>
+      <button class="mini-btn" id="hideSticky">Nanti</button>
+    </div>
+  </div>
+
+  <div class="modal" id="bonusModal" role="dialog" aria-modal="true" aria-labelledby="bonusTitle">
+    <div class="modal-box">
+      <div class="modal-top">
+        <div>
+          <h3 id="bonusTitle">Benefit pengguna baru para novos usuarios</h3>
+          <p>Selesaikan pendaftaran untuk membuka tiga benefit.</p>
+        </div>
+        <button class="close" type="button" id="closeModal" aria-label="Tutup">×</button>
+      </div>
+      <div class="bonus-list">
+        <div class="bonus">Kupon biaya transaksi pertama</div>
+        <div class="bonus">Limit promo pengguna baru</div>
+        <div class="bonus">Panduan buka akun dengan dukungan Bahasa Indonesia</div>
+      </div>
+      <form class="form" id="bonusForm">
+        <input class="input" type="text" placeholder="Nama kamu" required>
+        <input class="input" type="email" placeholder="E-mail kamu" required>
+        <input class="input" type="tel" placeholder="Nomor ponsel kamu" required>
+        <button class="btn btn-primary" type="submit">Daftar dan ambil benefit</button>
+      </form>
+      <div class="success" id="successMsg">Selesai. Link buka akun dan penjelasan benefit sudah disiapkan.</div>
+    </div>
+  </div>
+
+  <script>
+    const scrollProgress = document.getElementById("scrollProgress");
+    const stickyCta = document.getElementById("stickyCta");
+    let stickyHidden = false;
+
+    window.addEventListener("scroll", () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? window.scrollY / max : 0;
+      scrollProgress.style.width = `${pct * 100}%`;
+      if (pct > 0.28 && !stickyHidden) stickyCta.classList.add("show");
+    });
+
+    document.getElementById("hideSticky").addEventListener("click", () => {
+      stickyHidden = true;
+      stickyCta.classList.remove("show");
+    });
+
+    const modal = document.getElementById("bonusModal");
+    const openModal = () => modal.classList.add("show");
+    const closeModal = () => modal.classList.remove("show");
+
+    document.querySelectorAll("[data-open-modal]").forEach(button => {
+      button.addEventListener("click", openModal);
+    });
+
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closeModal();
+    });
+
+    setTimeout(() => {
+      if (!sessionStorage.getItem("bonusShownId")) {
+        sessionStorage.setItem("bonusShownId", "1");
+        openModal();
+      }
+    }, 3500);
+
+    document.getElementById("bonusForm").addEventListener("submit", event => {
+      event.preventDefault();
+      event.currentTarget.style.display = "none";
+      document.getElementById("successMsg").style.display = "block";
+    });
+
+    const prices = {
+      btc: { value: 1100000000, move: 1.24 },
+      eth: { value: 60000000, move: -0.38 },
+      sol: { value: 2500000, move: 2.06 }
+    };
+
+    function updateTicker() {
+      Object.entries(prices).forEach(([key, data]) => {
+        data.value *= 1 + (Math.random() - .48) / 240;
+        data.move += (Math.random() - .5) / 12;
+        const price = document.getElementById(`${key}Price`);
+        const move = document.getElementById(`${key}Move`);
+        price.textContent = `Rp ${Math.round(data.value).toLocaleString("id-ID")}`;
+        move.textContent = `${data.move >= 0 ? "+" : ""}${data.move.toFixed(2)}%`;
+        move.className = data.move >= 0 ? "up" : "down";
+      });
+      document.getElementById("clock").textContent = new Date().toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+    }
+
+    const canvas = document.getElementById("chart");
+    const ctx = canvas.getContext("2d");
+    let points = Array.from({ length: 34 }, (_, i) => 78 + Math.sin(i / 3) * 18 + Math.random() * 14);
+
+    function drawChart() {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = "rgba(16, 19, 24, .08)";
+      ctx.lineWidth = 1;
+      for (let i = 1; i < 4; i += 1) {
+        ctx.beginPath();
+        ctx.moveTo(0, h * i / 4);
+        ctx.lineTo(w, h * i / 4);
+        ctx.stroke();
+      }
+
+      const min = Math.min(...points) - 8;
+      const max = Math.max(...points) + 8;
+      const step = w / (points.length - 1);
+      const y = value => h - ((value - min) / (max - min)) * (h - 18) - 9;
+      const gradient = ctx.createLinearGradient(0, 0, 0, h);
+      gradient.addColorStop(0, "rgba(0, 163, 108, .3)");
+      gradient.addColorStop(1, "rgba(0, 163, 108, 0)");
+
+      ctx.beginPath();
+      points.forEach((point, index) => {
+        const x = index * step;
+        if (index === 0) ctx.moveTo(x, y(point));
+        else ctx.lineTo(x, y(point));
+      });
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      ctx.beginPath();
+      points.forEach((point, index) => {
+        const x = index * step;
+        if (index === 0) ctx.moveTo(x, y(point));
+        else ctx.lineTo(x, y(point));
+      });
+      ctx.strokeStyle = "#00a36c";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      points = [...points.slice(1), points.at(-1) + (Math.random() - .45) * 12];
+    }
+
+    updateTicker();
+    drawChart();
+    setInterval(updateTicker, 2600);
+    setInterval(drawChart, 1800);
+
+    const marketData = {
+      hot: [
+        ["BTC", "Bitcoin", "Rp 1.100.000.000", "+1.24%"],
+        ["ETH", "Ethereum", "Rp 60.000.000", "-0.38%"],
+        ["SOL", "Solana", "Rp 2.500.000", "+2.06%"],
+        ["BNB", "BNB", "Rp 9.800.000", "+0.52%"]
+      ],
+      stable: [
+        ["USDT", "Tether", "Rp 16.200", "+0.01%"],
+        ["USDC", "USD Coin", "Rp 16.190", "-0.02%"],
+        ["DAI", "Dai", "Rp 16.200", "+0.03%"],
+        ["FDUSD", "First Digital USD", "Rp 16.200", "0.00%"]
+      ],
+      new: [
+        ["ARB", "Arbitrum", "Rp 19.000", "+4.12%"],
+        ["OP", "Optimism", "Rp 39.000", "+2.86%"],
+        ["SUI", "Sui", "Rp 16.800", "-1.45%"],
+        ["TIA", "Celestia", "Rp 141.000", "+5.33%"]
+      ]
+    };
+
+    function renderMarket(type) {
+      const table = document.getElementById("marketTable");
+      table.innerHTML = marketData[type].map(row => `
+        <div class="row">
+          <div><b>${row[0]}</b><br><small>${row[1]}</small></div>
+          <div>${row[2]}</div>
+          <div class="${row[3].startsWith("-") ? "down" : "up"}">${row[3]}</div>
+          <button class="btn btn-light" data-open-modal>Beli / jual</button>
+        </div>
+      `).join("");
+      table.querySelectorAll("[data-open-modal]").forEach(button => {
+        button.addEventListener("click", openModal);
+      });
+    }
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(item => item.classList.remove("active"));
+        tab.classList.add("active");
+        renderMarket(tab.dataset.market);
+      });
+    });
+
+    renderMarket("hot");
+
+    document.querySelectorAll(".faq-question").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".faq-item");
+        const open = item.classList.toggle("open");
+        button.querySelector("span").textContent = open ? "−" : "+";
+      });
+    });
+  </script>
+</body>
+</html>
